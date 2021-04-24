@@ -13,7 +13,7 @@ require('dotenv').config({
  * which can be used to verify protected resources
  * {"user": <{...}>, "token": "<...>""}
  */
-export const login = async (req, res) => {
+export const login = (req, res) => {
 	const { password, email } = req.body
 
 	return User.findOne({ email }, (err, doc) => {
@@ -52,7 +52,7 @@ export const signup = (req, res) => {
 		name
 	})
 
-	return newUser.save(function (err, doc) {
+	return newUser.save((err, doc) => {
 		if (err) {
 			console.error(err);
 			res.status(500).json({ message: "An error occurred, try later!" })

@@ -52,6 +52,26 @@ const userValidation = {
             .bail()
             .isLength({ min: 8, max: 256 })
             .withMessage('Password must not be less than 8 characters')
+    ],
+    login: [
+        check('email')
+            .trim()
+            .not()
+            .isEmpty()
+            .withMessage('Email cannot be empty')
+            .if(check('email').exists({ checkFalsy: true }))
+            .isEmail()
+            .withMessage('email must be a valid email')
+            .isLength({ max: 256 })
+            .withMessage('must not be longer than 256'),
+        check('password')
+            .trim()
+            .not()
+            .isEmpty()
+            .withMessage('Password cannot be empty')
+            .bail()
+            .isLength({ min: 8, max: 256 })
+            .withMessage('Password must not be less than 8 characters')
     ]
 }
 

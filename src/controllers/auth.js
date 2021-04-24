@@ -13,8 +13,27 @@ require('dotenv').config({
  * which can be used to verify protected resources
  * {"user": <{...}>, "token": "<...>""}
  */
-export const login = (req, res) => {
-	res.status(404).json({ err: "not implemented" })
+export const login = async (req, res) => {
+	const { password, email } = req.body
+
+	return User.findOne({ email }, (err, doc) => {
+		if (err) {
+			console.error(err);
+			res.status(500).json({ message: "An error occurred, try later!" })
+		}
+
+		if (!doc || !doc.verifyPasswordSync(password)) {
+			return res.status(400).json({ message: "Wrong login details!" })
+		}
+
+		return res.status(200).json({
+			message: "Signed In!", token: jwt.sign({
+				id: doc._id,
+				username: doc.username,
+				email,
+			}, process.env.TOKEN_KEY)
+		})
+	})
 };
 /**
  * Given a json request 

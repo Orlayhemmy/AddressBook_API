@@ -3,15 +3,14 @@ import logger from './logger'
 
 mongoose.Promise = global.Promise;
 
-const uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds215910.mlab.com:15910/contact`
-const dev = "dev"
+const uri = process.env.DB_URI
+const env = "dev"
 const connection = mongoose.connect(uri);
 
 connection
 	.then(db => {
 		logger.info(
-			`Successfully connected to ${uri} MongoDB cluster in ${
-			env
+			`Successfully connected to ${uri} MongoDB cluster in ${env
 			} mode.`,
 		);
 		return db;

@@ -42,13 +42,17 @@ app.listen(port, err => {
 	}
 	require('./utils/db');
 
-	fs.readdirSync(path.join(__dirname, 'resources')).map(file => {
-		require('./resources/' + file)(app);
-	});
-
 	logger.info(
 		`app is now running on port ${port} in ${env} mode`
 	);
 });
+
+fs.readdirSync(path.join(__dirname, 'resources')).map(file => {
+	require('./resources/' + file)(app);
+});
+
+app.get('/', (req, res) => res.send('Hello! Welcome to a working server!'));
+
+app.all('*', (req, res) => res.status(400).json({ message: 'Ouch the routes does not exist!!!!' }))
 
 module.exports = app;

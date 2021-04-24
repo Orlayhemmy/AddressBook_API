@@ -1,5 +1,10 @@
 import User from '../entities/user';
 import logger from '../utils/logger';
+import jwt from 'jsonwebtoken'
+
+require('dotenv').config({
+	path: `${__dirname}/../../.env`,
+})
 
 /**
  * Given a json request 
@@ -19,7 +24,30 @@ export const login = (req, res) => {
  * {"user": <{...}>, "token": "<...>""}
  */
 export const signup = (req, res) => {
-	res.status(404).json({ err: "not implemented" })
+	const { username, password, email, name } = req.body
+
+	const newUser = new User({
+		email,
+		username,
+		password,
+		name
+	})
+
+	return newUser.save(function (err, doc) {
+		if (err) {
+			console.error(err);
+			res.status(500).json({ message: "An error occurred, try later!" })
+		}
+
+		return res.status(201).json({
+			message: "Account created!", token: jwt.sign({
+				id: doc._id,
+				email,
+				username
+			}, process.env.TOKEN_KEY)
+		})
+
+	});
 };
 /**
  * Implement a way to recover user accounts

@@ -7,6 +7,6 @@ module.exports = app => {
 	app.route('/auth/signup').post(userValidation.signup, validate, Auth.signup);
 
 	/*** BONUS POINTS ***/
-	app.route('/auth/forgot-password').post(Auth.SendToken);
-	app.route('/auth/reset-password').post(Auth.verifyTokenNResetPassword);
+	app.route('/auth/forgot-password').post(userValidation.forgotPassword, validate, Auth.SendToken);
+	app.route('/auth/reset-password').post(userValidation.resetPassword, validate, Auth.verifyTokenNResetPassword);
 };

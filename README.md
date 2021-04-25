@@ -33,7 +33,7 @@ Get Ready to Run
 ---
 
 * Pull the assessment repo
-    - > `git clone https://gitea.udux.com/backend-assessments/contact.git`
+    - > `git clone https://github.com/Orlayhemmy/AddressBook_API.git`
 * Pull up your favorite console and change to this directory
 * Install the projects dependencies 
     - > `npm install`
@@ -51,3 +51,6 @@ Start Development
 Submitting
 --
 Push the repo to your favourite repo platform and share the url.
+
+**NB**
+You need to turn on the less secure app of the gmail account to be used in the settings to enable sending of mail for password recovery feature.

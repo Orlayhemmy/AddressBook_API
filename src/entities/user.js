@@ -30,6 +30,12 @@ export const UserSchema = new Schema(
 			type: String,
 			trim: true,
 			required: true
+		},
+		passwordResetToken: {
+			type: String
+		},
+		passwordResetExpires: {
+			type: Number
 		}
 	},
 	{ collection: 'users' }

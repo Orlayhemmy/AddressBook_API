@@ -27,6 +27,8 @@
 	},
 	"dependencies": {
 		"cookie-parser": "^1.4.3",
+		"cors": "^2.8.5",
+		"crypto": "^1.0.1",
 		"dotenv": "^8.2.0",
 		"express": "^4.16.3",
 		"express-validator": "^6.10.1",
@@ -36,6 +38,7 @@
 		"mongoose-bcrypt": "^1.5.1",
 		"mongoose-string-query": "^0.2.5",
 		"mongoose-timestamp": "^0.6.0",
+		"nodemailer": "^6.5.0",
 		"winston": "^2.4.2"
 	},
 	"jest": {

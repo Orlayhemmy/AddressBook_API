@@ -23,8 +23,10 @@ const contactValidation = {
             .isEmpty()
             .withMessage('number cannot be empty')
             .bail()
-            .isLength({ min: 5, max: 20 })
-            .withMessage('must be longer 5 digits but lesser than 20 digits')
+            .isLength({ max: 20 })
+            .withMessage('must be lesser than 20 digits')
+            .matches(/^[0-9+-\s]+$/)
+            .withMessage('Letters are not allowed!')
             .custom(async (number, { req: { user } }) => {
                 const existingNumber = await Contact.findOne({
                     number,
@@ -51,8 +53,8 @@ const contactValidation = {
             }),
         check('number')
             .trim()
-            .isLength({ min: 5, max: 20 })
-            .withMessage('must be longer 5 digits but lesser than 20 digits')
+            .isLength({ max: 20 })
+            .withMessage('must be lesser than 20 digits')
             .custom(async (number, { req: { user } }) => {
                 const existingNumber = await Contact.findOne({
                     number,

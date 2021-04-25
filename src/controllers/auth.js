@@ -18,19 +18,20 @@ export const login = (req, res) => {
 
 	return User.findOne({ email }, (err, doc) => {
 		if (err) {
-			console.error(err);
-			res.status(500).json({ message: "An error occurred, try later!" })
+			res.status(500).json({ success: false, message: "An error occurred, try later!" })
 		}
 
 		if (!doc || !doc.verifyPasswordSync(password)) {
-			return res.status(400).json({ message: "Wrong login details!" })
+			return res.status(400).json({ success: false, message: "Wrong login details!" })
 		}
 
 		return res.status(200).json({
+			success: true,
 			message: "Signed In!", token: jwt.sign({
 				id: doc._id,
 				username: doc.username,
 				email,
+				exp: Math.floor(Date.now() / 1000) + (60 * 60),
 			}, process.env.TOKEN_KEY)
 		})
 	})
@@ -54,15 +55,16 @@ export const signup = (req, res) => {
 
 	return newUser.save((err, doc) => {
 		if (err) {
-			console.error(err);
 			res.status(500).json({ message: "An error occurred, try later!" })
 		}
 
 		return res.status(201).json({
+			success: true,
 			message: "Account created!", token: jwt.sign({
 				id: doc._id,
 				email,
-				username
+				username,
+				exp: Math.floor(Date.now() / 1000) + (60 * 60),
 			}, process.env.TOKEN_KEY)
 		})
 

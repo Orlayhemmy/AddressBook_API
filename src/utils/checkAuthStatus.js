@@ -13,7 +13,7 @@ const checkAuthStatus = (req, res, next) => {
         req.user = user
         return next()
     }
-    return res.status(401).json({ message: 'Unauthorized Action, Please register or login' })
+    return res.status(401).json({ success: false, message: 'Unauthorized Action, Please register or login' })
 }
 
 export default checkAuthStatus

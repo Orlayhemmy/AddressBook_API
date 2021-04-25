@@ -5,16 +5,17 @@ const getAllContacts = (req, res) => {
 
     return Contact.find({ userId: id }, (err, doc) => {
         if (err) {
-            console.error(err);
             res.status(500).json({ message: "An error occurred, try later!" })
         }
 
         if (!doc.length) {
             return res.status(404).json({
+                success: false,
                 message: "No contact found!",
             })
         }
         return res.status(200).json({
+            success: true,
             message: "Contacts retrieved successfully!",
             data: doc
         })
@@ -34,11 +35,11 @@ const createContact = (req, res) => {
 
     return newContact.save((err, doc) => {
         if (err) {
-            console.error(err);
             return res.status(500).json({ message: "An error occurred, try later!" })
         }
 
         return res.status(201).json({
+            success: true,
             message: "Contact Added!", data: newContact
         })
     })
@@ -50,13 +51,13 @@ const getContactByName = (req, res) => {
 
     return Contact.findOne({ fullname, userId: id }, (err, doc) => {
         if (err) {
-            console.error(err);
-            return res.status(500).json({ message: "An error occurred, try later!" })
+            return res.status(500).json({ success: false, message: "An error occurred, try later!" })
         }
 
-        if (!doc) return res.status(404).json({ message: "Contact not found!" })
+        if (!doc) return res.status(404).json({ success: false, message: "Contact not found!" })
 
         return res.status(200).json({
+            success: true,
             message: "Contact found!", data: doc
         })
     })
@@ -67,14 +68,13 @@ const getContactById = (req, res) => {
 
     return Contact.findOne({ _id: req.params.id, userId: id }, (err, doc) => {
         if (err) {
-            console.error(err);
-            return res.status(500).json({ message: "An error occurred, try later!" })
+            return res.status(500).json({ success: false, message: "An error occurred, try later!" })
         }
 
-        if (!doc) return res.status(404).json({ message: "Contact not found!" })
+        if (!doc) return res.status(404).json({ success: false, message: "Contact not found!" })
 
         return res.status(200).json({
-            message: "Contact found!", data: doc
+            success: true, message: "Contact found!", data: doc
         })
     })
 }
@@ -88,11 +88,10 @@ const updateContact = (req, res) => {
         { _id: req.params.id, userId: id },
         (err, doc) => {
             if (err) {
-                console.error(err);
                 return res.status(500).json({ message: "An error occurred, try later!" })
             }
 
-            if (!doc) return res.status(404).json({ message: "Contact not found!" })
+            if (!doc) return res.status(404).json({ success: false, message: "Contact not found!" })
 
             fields.forEach((field) => {
                 // check that field is present in req.body and also compare with the exist value in the db
@@ -102,12 +101,12 @@ const updateContact = (req, res) => {
                 }
             })
 
-            if (!isNewData) return res.status(400).json({ message: "Please include field(s) to be updated!" })
+            if (!isNewData) return res.status(400).json({ success: false, message: "Please include field(s) to be updated!" })
 
             doc.save()
 
             return res.status(200).json({
-                message: "Contact updated!", data: doc
+                success: true, message: "Contact updated!", data: doc
             })
         }
     )
@@ -120,11 +119,11 @@ const removeContact = (req, res) => {
         { _id: req.params.id, userId: id },
         (err,) => {
             if (err) {
-                console.error(err);
-                return res.status(500).json({ message: "An error occurred, try later!" })
+                return res.status(500).json({ success: false, message: "An error occurred, try later!" })
             }
+
             return res.status(200).json({
-                message: "Contact removed!"
+                success: true, message: "Contact removed!"
             })
         }
     )

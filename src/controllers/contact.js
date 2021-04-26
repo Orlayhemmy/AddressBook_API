@@ -117,10 +117,12 @@ const removeContact = (req, res) => {
 
     return Contact.deleteOne(
         { _id: req.params.id, userId: id },
-        (err,) => {
+        (err, doc) => {
             if (err) {
                 return res.status(500).json({ success: false, message: "An error occurred, try later!" })
             }
+
+            if (doc.deletedCount === 0) return res.status(400).json({ success: false, message: "You cannot remove contact!" })
 
             return res.status(200).json({
                 success: true, message: "Contact removed!"
